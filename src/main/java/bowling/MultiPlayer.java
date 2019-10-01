@@ -5,24 +5,43 @@
  */
 package bowling;
 
+import java.util.HashMap;
+import java.util.Map;
+import bowling.SinglePlayerGame;
+import java.util.Iterator;
 /**
  *
  * @author pedago
  */
 public class MultiPlayer implements MultiPlayerGame {
+    private static final String TURN = "Prochain tir : joueur %s, tour n° %d, boule n° %d";
+    private final Map<String, SinglePlayerGame> games;
+    private Iterator<String> player;
+    
+    private String currentPlayer;
     
     
     public MultiPlayer(){
-       
+          games = new HashMap<>();
     }
     
     @Override
     public String startNewGame(String[] playerName) throws Exception {
         
         if (playerName.length == 0){
-            throw new java.lang.Exception("Tableau vide ou nul");
+            throw new java.lang.Exception("Aucun joueur n'est enregistré");
         }
-        return "Prochain tir : joueur"+playerName[0]+", tour n° 1, boule n° 1";
+        for(String name : playerName){
+            games.put(name,new SinglePlayerGame());
+        }
+        
+        player = games.keySet().iterator();
+        if (!player.hasNext()){
+            player =games.keySet().iterator();
+        }
+        currentPlayer=player.next();
+        return null;
+        
     
     }
     
