@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package bowling;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
+import org.junit.Test;
 /**
  *
  * @author Remi Bastide
@@ -93,7 +95,5 @@ public class MultiPlayerTest {
 		return multiGame.lancer(10);
 	}	
 
-    private void assertEquals(String prochain_tir__joueur_Zorglub_tour_n_1_bou, String result) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }
