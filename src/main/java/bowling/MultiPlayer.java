@@ -37,10 +37,10 @@ public class MultiPlayer implements MultiPlayerGame {
         }
         
         player = games.keySet().iterator();
-        
+        gameFinished = false;
+
         joueurSuivant();
         
-        gameFinished = false;
         
         return Message();
         
@@ -76,9 +76,8 @@ public class MultiPlayer implements MultiPlayerGame {
             return(END);
         }
         else {
-            int num_tour=currentGame.getFrameNumber();
-            int num_boule=currentGame.getNextBallNumber();            
-            return(String.format(TURN,currentPlayer,num_tour,num_boule));
+            SinglePlayerGame curGame=currentGame;            
+            return(String.format(TURN,currentPlayer,curGame.getFrameNumber() , curGame.getNextBallNumber()));
         }
     }
     
