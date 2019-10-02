@@ -4,6 +4,7 @@ package bowling;
  *
  * @author rbastide
  */
+
 public interface MultiPlayerGame {
    
     /**

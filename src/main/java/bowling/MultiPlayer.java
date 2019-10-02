@@ -7,7 +7,6 @@ package bowling;
 
 import java.util.HashMap;
 import java.util.Map;
-import bowling.SinglePlayerGame;
 import java.util.Iterator;
 /**
  *
@@ -15,11 +14,13 @@ import java.util.Iterator;
  */
 public class MultiPlayer implements MultiPlayerGame {
     private static final String TURN = "Prochain tir : joueur %s, tour n° %d, boule n° %d";
+    private static final String END = "Partie terminée";
     private final Map<String, SinglePlayerGame> games;
     private Iterator<String> player;
     
     private String currentPlayer;
-    
+    private SinglePlayerGame currentGame;
+    private boolean gameFinished;
     
     public MultiPlayer(){
           games = new HashMap<>();
@@ -36,22 +37,61 @@ public class MultiPlayer implements MultiPlayerGame {
         }
         
         player = games.keySet().iterator();
-        if (!player.hasNext()){
-            player =games.keySet().iterator();
-        }
-        currentPlayer=player.next();
-        return null;
+        
+        joueurSuivant();
+        
+        gameFinished = false;
+        
+        return Message();
         
     
     }
     
     @Override
     public String lancer(int nombreDeQuillesAbattues) throws Exception {
-        return "1";
+        if(gameFinished){
+            throw new java.lang.Exception(END);
+        }
+        currentGame.lancer(nombreDeQuillesAbattues);
+        
+        if (currentGame.hasCompletedFrame() || currentGame.isFinished()){
+            joueurSuivant();
+        }
+        
+       return Message();
     }
 
     @Override
     public int scoreFor(String playerName) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         if(!games.containsKey(playerName)){
+            throw new Exception("Aucune partie trouvée pour ce joueur");
+        }
+        SinglePlayerGame scoredGame = games.get(playerName);
+        return scoredGame.score();
+             
     }
+    
+    public String Message(){
+        if (gameFinished){
+            return(END);
+        }
+        else {
+            int num_tour=currentGame.getFrameNumber();
+            int num_boule=currentGame.getNextBallNumber();            
+            return(String.format(TURN,currentPlayer,num_tour,num_boule));
+        }
+    }
+    
+    public void joueurSuivant(){
+        if (!player.hasNext()){
+            if (currentGame.isFinished()){
+                gameFinished = true;
+            }else{
+                player = games.keySet().iterator();
+            }          
+        }
+        currentPlayer=player.next();
+        currentGame=games.get(currentPlayer);
+    }
+    
 }
