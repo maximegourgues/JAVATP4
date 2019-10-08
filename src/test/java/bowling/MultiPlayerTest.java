@@ -32,27 +32,19 @@ public class MultiPlayerTest {
                 //Verifie si le premier message affiché est correcte
 		assertEquals("Prochain tir : joueur Goku, tour n° 1, boule n° 1", res);
 	}
-	@Test
+	@Test( expected = Exception.class )
         public void goodEndMessage() throws Exception {
             String[] playerNames = {"Goku","Vegeta"};
             multiGame.startNewGame(playerNames);
             // Chaque joueur font 10 tours sans marquer de points (10 tours * 2 boules * 0);
-            String mess = rollMany(playerNames.length * 10 * 2,0);
+            String mess = rollMany(playerNames.length * 10 * 2, 0);
             // Verifie si le message de fin de partie est affiché lorsque toutes les boules ont été lancées
             assertEquals("Partie terminée", mess);
         }
-	@Test
-	public void testLancerStrike() throws Exception {
-		String[] playerNames = {"Goku", "Vegeta"};
-		multiGame.startNewGame(playerNames);
-		String result = rollStrike();
-		assertEquals("Prochain tir : joueur Vegeta, tour n° 1, boule n° 1", result);
-	}
-
 	
 	@Test( expected = Exception.class )
-	public void scoreForUnknownPlayer() throws Exception {
-		String[] playerNames = {"Zorglub", "Albator"};
+	public void scoreJoueurInconnu() throws Exception {
+		String[] playerNames = {"Goku", "Vegeta"};
 		multiGame.startNewGame(playerNames);
 		int score = multiGame.scoreFor("Unknown");
 	}
