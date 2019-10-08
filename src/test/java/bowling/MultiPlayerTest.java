@@ -42,13 +42,41 @@ public class MultiPlayerTest {
             assertEquals("Partie terminée", mess);
         }
 	
+        @Test
+        public void goodSecondBowlMessage() throws Exception {
+            String[] playerNames = {"Goku","Vegeta"};
+            multiGame.startNewGame(playerNames);
+            //Goku fait un tir dans la rigole, il doit lancer la deuxieme boule
+            String mess = rollMany(1,0);
+            assertEquals("Prochain tir : joueur Goku, tour n° 1, boule n° 2",mess);
+            
+        }
+        
+        @Test
+        public void goodStrikeMessage()throws Exception {
+            String[] playerNames = {"Goku","Vegeta"};
+            multiGame.startNewGame(playerNames);
+            //Goku réalise un strike, c'est donc au prochain joueur de commencer le prochain tour
+            String mess = rollStrike();
+            assertEquals("Prochain tir : joueur Vegeta, tour n° 1, boule n° 1", mess);
+        }
+        
+        @Test
+        public void goodNextTurnMessage() throws Exception {
+            String[] playerNames = {"Goku","Vegeta","Krilin"};
+            multiGame.startNewGame(playerNames);
+            //Chacun fini leur premier tour
+            String mess = rollMany(playerNames.length, 10 );
+            assertEquals("Prochain tir : joueur Goku, tour n° 2, boule n° 1", mess);
+        
+        }
 	@Test( expected = Exception.class )
 	public void scoreJoueurInconnu() throws Exception {
 		String[] playerNames = {"Goku", "Vegeta"};
 		multiGame.startNewGame(playerNames);
-		int score = multiGame.scoreFor("Unknown");
+		int score = multiGame.scoreFor("Kelkun");
 	}
-
+        
 	// Quelques methodes utilitaires pour faciliter l'écriture des tests
 	private String rollMany(int n, int pins) throws Exception {
 		String result = "";
