@@ -7,10 +7,7 @@ package bowling;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-/**
- *
- * @author Remi Bastide
- */
+
 
 public class MultiPlayerTest {
 	private MultiPlayer multiGame;
@@ -19,24 +16,7 @@ public class MultiPlayerTest {
 	public void setUp() {
 		multiGame = new MultiPlayer();
 	}
-
-	@Test
-	public void testRookieVersusChampion() throws Exception {
-		String[] playerNames = {"Rookie", "Champion"};
-		multiGame.startNewGame(playerNames);
-		for (int tour = 0; tour < 10; tour ++) {
-			// Le rookie fait deux rigoles
-			multiGame.lancer(0);			
-			multiGame.lancer(0);			
-			// Le champion fait un strike
-			multiGame.lancer(10);
-		}
-		// Le champion a droit à deux boules de plus
-		multiGame.lancer(10);
-		multiGame.lancer(10);	
-		assertEquals(  0, multiGame.scoreFor("Rookie"));
-		assertEquals(300, multiGame.scoreFor("Champion"));
-	}
+	
         
 	@Test (expected = Exception.class)
 	public void needOnePlayer() throws Exception {
