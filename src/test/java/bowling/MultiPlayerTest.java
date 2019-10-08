@@ -21,34 +21,34 @@ public class MultiPlayerTest {
 	@Test (expected = Exception.class)
 	public void needOnePlayer() throws Exception {
 		String[] playerNames = {};
-		String result = multiGame.startNewGame(playerNames);
+                // Pour commencer une partie, il faut renseigner au moins un joueur
+		String res = multiGame.startNewGame(playerNames);
 	}
 
 	@Test
 	public void goodStartMessage() throws Exception {
-		String[] playerNames = {"Zorglub", "Albator"};
-		String result = multiGame.startNewGame(playerNames);
-		assertEquals("Prochain tir : joueur Zorglub, tour n° 1, boule n° 1", result);
+		String[] playerNames = {"Goku", "Vegeta"};
+		String res = multiGame.startNewGame(playerNames);
+                //Verifie si le premier message affiché est correcte
+		assertEquals("Prochain tir : joueur Goku, tour n° 1, boule n° 1", res);
 	}
-	
+	@Test
+        public void goodEndMessage() throws Exception {
+            String[] playerNames = {"Goku","Vegeta"};
+            multiGame.startNewGame(playerNames);
+            // Chaque joueur font 10 tours sans marquer de points (10 tours * 2 boules * 0);
+            String mess = rollMany(playerNames.length * 10 * 2,0);
+            // Verifie si le message de fin de partie est affiché lorsque toutes les boules ont été lancées
+            assertEquals("Partie terminée", mess);
+        }
 	@Test
 	public void testLancerStrike() throws Exception {
-		String[] playerNames = {"Zorglub", "Albator"};
+		String[] playerNames = {"Goku", "Vegeta"};
 		multiGame.startNewGame(playerNames);
 		String result = rollStrike();
-		assertEquals("Prochain tir : joueur Albator, tour n° 1, boule n° 1", result);
+		assertEquals("Prochain tir : joueur Vegeta, tour n° 1, boule n° 1", result);
 	}
 
-	@Test( expected = Exception.class )
-	public void testGameFinishes() throws Exception {
-		String[] playerNames = {"Zorglub", "Albator"};
-		multiGame.startNewGame(playerNames);
-		// Tout dans la rigole : n joueurs * 10 tours * 2 boules par tour
-		String message = rollMany(playerNames.length * 10 * 2, 0);
-		assertEquals("Partie terminée", message);
-		// Un lancer de trop doit lever une exception
-		multiGame.lancer(0);
-	}
 	
 	@Test( expected = Exception.class )
 	public void scoreForUnknownPlayer() throws Exception {
