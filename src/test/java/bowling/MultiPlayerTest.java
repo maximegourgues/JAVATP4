@@ -77,7 +77,27 @@ public class MultiPlayerTest {
 		int score = multiGame.scoreFor("Kelkun");
 	}
         
-	// Quelques methodes utilitaires pour faciliter l'écriture des tests
+        @Test (expected = Exception.class)
+        public void badPlayerVersusChampion() throws Exception {
+            String[] playerNames = {"Yamcha", "God"};
+            multiGame.startNewGame(playerNames);
+            
+            for (int tour =0 ; tour < 10 ; tour++) {
+            //le premier joueur (le mauvais) lance deux boules dans la rigole
+                multiGame.lancer(0);
+                multiGame.lancer(0);
+            //le second joueur (chamion) réalise un strike;
+                multiGame.lancer(10);
+            }
+            //le chamion n'ayant réalisé que des strikes à 2 boules bonus
+            multiGame.lancer(10);
+            multiGame.lancer(10);
+        
+            assertEquals(0,multiGame.scoreFor("Yamcha"));
+            assertEquals(300,multiGame.scoreFor("God"));
+        }
+        
+        // Quelques methodes utilitaires pour faciliter l'écriture des tests
 	private String rollMany(int n, int pins) throws Exception {
 		String result = "";
 		for (int i = 0; i < n; i++) {
